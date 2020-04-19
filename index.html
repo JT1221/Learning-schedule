@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue定制学习计划</title>
+    <link rel="stylesheet" href="./css/bootstrap.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="./js/vue.js"></script>
+    <script src="./js/index.js"></script>
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="panel panel-info" style="margin: 20px;">
+        <!-- 头部 -->
+        <div class="panel-heading" style="text-align: center;">
+          <h1 style="font-size: 55px;">一日计划表</h1>
+          <div>
+            <a>共有<span class="badge">{{items.length}}</span>个计划</a>
+            <a>已完成：<span class="badge">{{completed}}</span></a>
+            <a>未完成：<span class="badge">{{items.length-completed}}</span></a>
+          </div>
+        </div>
+        <!-- 内容 -->
+        <div class="panel-body">
+          <div class="input-group">
+            <input
+              class="form-control text-keyword"
+              type="text"
+              placeholder="输入计划后按回车键确认"
+              v-model="value"
+              @keyup.enter="add()"
+            />
+            <span class="input-group-btn">
+              <!-- v-bind绑定判断，如果!value -->
+              <button class="btn btn-primary" @click="add()" :disabled="!value">
+                添加计划
+              </button>
+            </span>
+          </div>
+          <!-- 按钮组 -->
+          <div class="input-group btn-group-justified">
+            <a
+              class="btn btn-default"
+              :class="cult==1 ? 'btn-primary':''"
+              @click="filterItem(1)"
+              >所有计划</a
+            >
+            <!-- 判断切换class -->
+            <a
+              class="btn btn-default"
+              :class="cult==2 ? 'btn-primary':''"
+              @click="filterItem(2)"
+              >已完成</a
+            >
+            <a
+              class="btn btn-default"
+              :class="cult==3 ? 'btn-primary':''"
+              @click="filterItem(3)"
+              >未完成</a
+            >
+          </div>
+
+          <ul class="list-group">
+            <li class="list-group-item" v-for="(v,i) in newItem" :key="i">
+              <input type="checkbox" v-model="v.check" />
+              <!-- 判断是否要有下划线，当v.check为真的话就添加这个class否则的话为空 -->
+              <span :class="v.check ? 'line-through':''">{{v.name}}</span>
+              <a class="badge" @click="remove(v)">删除</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
